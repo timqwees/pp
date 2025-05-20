@@ -1,0 +1,34 @@
+{
+ "name": "php-framework/react-like",
+ "description": "A React-like PHP framework with component-based architecture",
+ "type": "project",
+ "require": {
+  "php": ">=8.0",
+  "nikic/php-parser": "^4.15",
+  "phpunit/phpunit": "^9.5"
+ },
+ "autoload": {
+  "psr-4": {
+   "PhpFramework\\": "src/"
+  }
+ },
+ "autoload-dev": {
+  "psr-4": {
+   "PhpFramework\\Tests\\": "tests/"
+  }
+ },
+ "require-dev": {
+  "phpunit/phpunit": "^9.5"
+ },
+ "authors": [
+  {
+   "name": "Artem Nersisyan",
+   "email": "artemnersisyan777@gmail.com"
+  },
+  {
+   "name": "Alexander Romanov",
+   "email": "katsero@example.com"
+  }
+ ],
+ "minimum-stability": "stable"
+}
