@@ -94,19 +94,24 @@
           <div class="card-body">
             <h2 class="card-title"><?= htmlspecialchars($post->getTitle()) ?></h2>
             <p class="card-text"><?= htmlspecialchars($post->getContent()) ?></p>
-            <div class="d-flex justify-content-between align-items-center"><small class="text-muted">Опубликовано:
-                <?= date('d.m.Y H:i', strtotime($post->getCreatedAt())) ?>
-              </small><button class="btn btn-outline-primary btn-sm" onclick="toggleComments()">Комментарии
-                (<?= count($post->getComments()) ?>) </button></div>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">Опубликовано: <?= date('d.m.Y H:i', strtotime($post->getCreatedAt())) ?></small>
+              <button class="btn btn-outline-primary btn-sm" onclick="toggleComments()">
+                Комментарии (<?= count($post->getComments() ?? []) ?>)
+              </button>
+            </div>
             <div class="comment-section" id="comments" style="display: none;">
               <h5>Комментарии</h5>
-              <?php foreach ($post->getComments() as $comment): ?>
-                <div class="comment mb-3">
-                  <p class="mb-1"><?= htmlspecialchars($comment['content']) ?></p><small class="text-muted">Автор:
-                    <?= $comment['author_id'] ?>
-                  </small>
-                </div>
-              <?php endforeach; ?>
+              <?php if (!empty($post->getComments())): ?>
+                <?php foreach ($post->getComments() as $comment): ?>
+                  <div class="comment mb-3">
+                    <p class="mb-1"><?= htmlspecialchars($comment['content']) ?></p>
+                    <small class="text-muted">Автор: <?= $comment['author_id'] ?></small>
+                  </div>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <p class="text-muted">Комментариев пока нет</p>
+              <?php endif; ?>
 
               <form id="commentForm" class="mt-3">
                 <div class="mb-3"><textarea class="form-control" id="commentContent" rows="2"
