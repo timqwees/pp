@@ -16,12 +16,15 @@ class ComposerStaticInite25b0fee620757e7b98d526eab6bf5e1
         array (
             'PhpParser\\' => 10,
             'PhpFramework\\Tests\\' => 19,
-            'PhpFramework\\' => 13,
         ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -34,10 +37,6 @@ class ComposerStaticInite25b0fee620757e7b98d526eab6bf5e1
         array (
             0 => __DIR__ . '/../..' . '/tests',
         ),
-        'PhpFramework\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -45,6 +44,10 @@ class ComposerStaticInite25b0fee620757e7b98d526eab6bf5e1
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 

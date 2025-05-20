@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Перенаправление API-запросов
+RewriteRule ^api/diary/entry$ api/diary/entry.php [L]
+
+# Обработка ошибок
+ErrorDocument 404 /examples/404.php
+ErrorDocument 500 /examples/500.php 

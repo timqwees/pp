@@ -1,17 +1,22 @@
 <?php
 
-namespace PhpFramework\Components\Auth;
+namespace App\Components\Auth;
 
 class Auth
 {
- private static ?self $instance = null;
+ private static ?Auth $instance = null;
  private ?array $user = null;
- private string $sessionKey = 'auth_user';
 
  private function __construct()
  {
-  if (isset($_SESSION[$this->sessionKey])) {
-   $this->user = $_SESSION[$this->sessionKey];
+  // Инициализация сессии
+  if (session_status() === PHP_SESSION_NONE) {
+   session_start();
+  }
+
+  // Проверяем, есть ли данные пользователя в сессии
+  if (isset($_SESSION['user'])) {
+   $this->user = $_SESSION['user'];
   }
  }
 
@@ -23,17 +28,17 @@ class Auth
   return self::$instance;
  }
 
- public function login(array $credentials): bool
+ public function login(string $username, string $password): bool
  {
-  // Здесь должна быть проверка учетных данных в базе данных
-  // Для примера просто проверяем наличие email и password
-  if (isset($credentials['email']) && isset($credentials['password'])) {
+  // TODO: В реальном приложении здесь должна быть проверка с базой данных
+  // Для демонстрации используем тестовые учетные данные
+  if ($username === 'admin' && $password === 'admin') {
    $this->user = [
-    'id' => 1, // В реальном приложении ID будет из базы данных
-    'email' => $credentials['email'],
-    'name' => 'Test User'
+    'id' => 1,
+    'username' => $username,
+    'role' => 'admin'
    ];
-   $_SESSION[$this->sessionKey] = $this->user;
+   $_SESSION['user'] = $this->user;
    return true;
   }
   return false;
@@ -42,7 +47,8 @@ class Auth
  public function logout(): void
  {
   $this->user = null;
-  unset($_SESSION[$this->sessionKey]);
+  unset($_SESSION['user']);
+  session_destroy();
  }
 
  public function isAuthenticated(): bool
@@ -50,18 +56,23 @@ class Auth
   return $this->user !== null;
  }
 
- public function getUser(): ?array
- {
-  return $this->user;
- }
-
  public function getUserId(): ?int
  {
   return $this->user['id'] ?? null;
  }
 
- public function check(): bool
+ public function getUsername(): ?string
  {
-  return $this->isAuthenticated();
+  return $this->user['username'] ?? null;
+ }
+
+ public function getRole(): ?string
+ {
+  return $this->user['role'] ?? null;
+ }
+
+ public function getUser(): ?array
+ {
+  return $this->user;
  }
 }

@@ -1,15 +1,15 @@
 {
- "name": "php-framework/react-like",
- "description": "A React-like PHP framework with component-based architecture",
+ "name": "php-framework/demo",
+ "description": "PHP Framework Demo",
  "type": "project",
  "require": {
-  "php": ">=8.0",
+  "php": ">=7.4",
   "nikic/php-parser": "^4.15",
   "phpunit/phpunit": "^9.5"
  },
  "autoload": {
   "psr-4": {
-   "PhpFramework\\": "src/"
+   "App\\": "src/"
   }
  },
  "autoload-dev": {

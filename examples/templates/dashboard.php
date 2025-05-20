@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use PhpFramework\Components\Auth\Auth;
-use PhpFramework\Components\Diary\Diary;
+use App\Components\Auth\Auth;
+use App\Components\Diary\Diary;
 
 // Инициализация компонентов
 $auth = Auth::getInstance();
@@ -88,9 +88,11 @@ $diary = new Diary($userId);
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container"><a class="navbar-brand" href="/">PHP Framework</a><button class="navbar-toggler"
-        type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span
-          class="navbar-toggler-icon"></span></button>
+    <div class="container">
+      <a class="navbar-brand" href="/">PHP Framework</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="/dashboard">Ежедневник</a></li>
@@ -105,14 +107,17 @@ $diary = new Diary($userId);
       <div class="col-md-8">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <h3>Мой ежедневник</h3><button class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#newEntryModal">Новая запись </button>
+            <h3>Мой ежедневник</h3>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newEntryModal">
+              Новая запись
+            </button>
           </div>
           <div class="card-body">
             <?php foreach ($diary->getEntries() as $entry): ?>
               <div class="diary-entry p-3 mb-3 border rounded">
                 <h5><?= htmlspecialchars($entry['title']) ?></h5>
-                <p><?= htmlspecialchars($entry['content']) ?></p><small class="text-muted">
+                <p><?= htmlspecialchars($entry['content']) ?></p>
+                <small class="text-muted">
                   <?= date('d.m.Y H:i', strtotime($entry['created_at'])) ?>
                 </small>
               </div>
@@ -126,57 +131,58 @@ $diary = new Diary($userId);
             <h4>Статистика</h4>
           </div>
           <div class="card-body">
-            <p>Всего записей:
-              <?= count($diary->getEntries()) ?>
-            </p>
-            <p>Последняя запись:
-
-              <?= date('d.m.Y', strtotime($diary->getEntries()[0]['created_at'] ?? 'now')) ?>
-            </p>
+            <p>Всего записей: <?= count($diary->getEntries()) ?></p>
+            <p>Последняя запись: <?= date('d.m.Y', strtotime($diary->getEntries()[0]['created_at'] ?? 'now')) ?></p>
           </div>
         </div>
       </div>
     </div>
   </div>
-  < !-- Модальное окно для новой записи -->
-    <div class="modal fade" id="newEntryModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Новая запись</h5><button type="button" class="btn-close"
-              data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <form id="newEntryForm">
-              <div class="mb-3"><label for="title" class="form-label">Заголовок</label><input type="text"
-                  class="form-control" id="title" name="title" required></div>
-              <div class="mb-3"><label for="content" class="form-label">Содержание</label><textarea class="form-control"
-                  id="content" name="content" rows="4" required></textarea></div>
-            </form>
-          </div>
-          <div class="modal-footer"><button type="button" class="btn btn-secondary"
-              data-bs-dismiss="modal">Отмена</button><button type="button" class="btn btn-primary"
-              onclick="saveEntry()">Сохранить</button></div>
+  <!-- Модальное окно для новой записи -->
+  <div class="modal fade" id="newEntryModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Новая запись</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="newEntryForm">
+            <div class="mb-3">
+              <label for="title" class="form-label">Заголовок</label>
+              <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="content" class="form-label">Содержание</label>
+              <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-primary" onclick="saveEntry()">Сохранить</button>
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>function saveEntry() {
-        const form = document.getElementById('newEntryForm');
-        const formData = new FormData(form);
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function saveEntry() {
+      const form = document.getElementById('newEntryForm');
+      const formData = new FormData(form);
 
-        fetch('/api/diary/entry', {
-          method: 'POST',
-          body: formData
-
-        }).then(response => response.json()).then(data => {
+      fetch('/api/diary/entry', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
           if (data.success) {
             location.reload();
           }
         });
-      }
-
-    </script>
+    }
+  </script>
 </body>
 
 </html>

@@ -1,3 +1,21 @@
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use App\Components\Auth\Auth;
+use App\Components\Post\Post;
+use App\Components\Diary\Diary;
+
+// Проверяем авторизацию
+$auth = Auth::getInstance();
+if (!$auth->isAuthenticated()) {
+    header('Location: /examples/login.php');
+    exit;
+}
+
+$userId = $auth->getUserId();
+$post = new Post($userId);
+$diary = new Diary($userId);
+?>
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -116,23 +134,19 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/demo.php">PHP Framework</a>
+            <a class="navbar-brand" href="/">PHP Framework</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/demo.php">Главная</a>
+                    <li class="nav-item"><a class="nav-link" href="/examples/templates/dashboard.php">Ежедневник</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/components.php">Компоненты</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/api_test.php">API</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/examples/posts.php">Посты</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/examples/components.php">Компоненты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/examples/logout.php">Выйти</a></li>
                 </ul>
             </div>
         </div>
@@ -161,7 +175,8 @@
                     <div class="component-header">
                         <h3>Компонент Auth</h3>
                         <p class="text-muted mb-0">Управление аутентификацией и авторизацией</p>
-                        <a href="/api_test.php#auth" class="btn btn-sm btn-outline-primary mt-2">Тестировать API</a>
+                        <a href="/examples/api_test.php#auth" class="btn btn-sm btn-outline-primary mt-2">Тестировать
+                            API</a>
                     </div>
                     <div class="component-body">
                         <div class="row">
@@ -204,7 +219,8 @@ $auth->logout();</code></pre>
                     <div class="component-header">
                         <h3>Компонент Post</h3>
                         <p class="text-muted mb-0">Управление постами и комментариями</p>
-                        <a href="/api_test.php#posts" class="btn btn-sm btn-outline-primary mt-2">Тестировать API</a>
+                        <a href="/examples/api_test.php#posts" class="btn btn-sm btn-outline-primary mt-2">Тестировать
+                            API</a>
                     </div>
                     <div class="component-body">
                         <div class="row">
@@ -247,7 +263,8 @@ $comments = $post->getComments();</code></pre>
                     <div class="component-header">
                         <h3>Компонент Diary</h3>
                         <p class="text-muted mb-0">Управление личным дневником</p>
-                        <a href="/api_test.php#diary" class="btn btn-sm btn-outline-primary mt-2">Тестировать API</a>
+                        <a href="/examples/api_test.php#diary" class="btn btn-sm btn-outline-primary mt-2">Тестировать
+                            API</a>
                     </div>
                     <div class="component-body">
                         <div class="row">
@@ -298,7 +315,7 @@ $entries = $diary->getEntries();</code></pre>
             button.disabled = true;
 
             // Выполняем запрос к API
-            fetch(`/run_component.php?component=${type}&action=${action}`)
+            fetch(`/examples/run_component.php?component=${type}&action=${action}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
